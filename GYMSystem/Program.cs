@@ -2,6 +2,7 @@
 using GymManagementSystem.BLL.Services.Interfaces;
 using GymManagementSystemG01.BLL.Services.Classes;
 using GymManagementSystemG01.BLL.Services.Interfaces;
+using GymManagementSystemG01.PL;
 using GYMSystem.DAL.DBContexts;
 using GYMSystem.DAL.Repositories.Classes;
 using GYMSystem.DAL.Repositories.Interfaces;
@@ -32,7 +33,7 @@ builder.Services.AddScoped<ITrainerService, TrainerService>();
 
 #endregion
 var app = builder.Build();
-
+await app.MigrateAndSeedAsync();
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
