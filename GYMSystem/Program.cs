@@ -1,7 +1,10 @@
 
 using GymManagementSystem.BLL.Services.Interfaces;
+using GymManagementSystemG01.BLL.Mapping;
 using GymManagementSystemG01.BLL.Services.Classes;
 using GymManagementSystemG01.BLL.Services.Interfaces;
+using GymManagementSystemG01.DAL.Repositories.Classes;
+using GymManagementSystemG01.DAL.Repositories.Interfaces;
 using GYMSystem.DAL.DBContexts;
 using GYMSystem.DAL.Repositories.Classes;
 using GYMSystem.DAL.Repositories.Interfaces;
@@ -20,16 +23,18 @@ builder.Services.AddDbContext<GYMDBContext>(
     );
 
 #region Services
-
-builder.Services.AddScoped(
-    typeof(GymManagementSystemG01.DAL.Repositories.Interfaces.IGenericRepository<>),
-    typeof(GymManagementSystemG01.DAL.Repositories.Classes.GenericRepository<>)
-);
-builder.Services.AddScoped<IPlanService, PlanService>();
-builder.Services.AddScoped<IPlanRepository, PlanRepository>();
+builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 builder.Services.AddScoped<IMemberService, MemberService>();
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<ITrainerService, TrainerService>();
+builder.Services.AddScoped<IPlanService, PlanService>();
+builder.Services.AddScoped<ISessionService, SessionService>();
+// Program.cs
 
+// Register your Session Repository (assuming it's Scoped like your UnitOfWork)
+builder.Services.AddScoped<ISessionRepository, SessionRepository>();
+
+builder.Services.AddAutoMapper(M => M.AddProfile(new MappingProfiles()));
 #endregion
 var app = builder.Build();
 
